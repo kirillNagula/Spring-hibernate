@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+</head>
+<body>
+
+    <h2> You can modify your information</h2>
+    <h2 th:text="${logMes}"></h2>
+    <form th:action="@{/account}" method="post" th:object="${properties}">
+        Name  <input type="text"  th:placeholder="${session.user.name}" th:field="*{name}">
+        <br>
+        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">bla-bla-bla</p>
+        <br>
+        Login   <input type="text" th:placeholder="${session.user.login}"  th:field="*{login}">
+        <br>
+        <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}">bla-bla-bal</p>
+        <br>
+        Password   <input  th:field="*{password}">
+        <br>
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">bla-bla-bla</p>
+        <br>
+        Telephone <input maxlength="13" th:placeholder="${session.user.number.number}"  th:field="*{number.number}">
+        <br>
+        City <input type="text" th:placeholder="${session.user.address.city}"  th:field="*{address.city}">
+        <br>
+        Street <input type="text" th:placeholder="${session.user.address.street}"  th:field="*{address.street}">
+        <br>
+        Number <input type="text" th:placeholder="${session.user.address.number}"  th:field="*{address.number}">
+        <br>
+        <button>Submit</button>
+    </form>
+
+    <form th:action="@{/account/{id}(id=${session.user.id})}" method="post">
+        <button>Delete</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <p>Hello <span th:if="${session.user != null}" th:text="${session.user.name}"></span></p>
+    <a href="/home/reg" th:if="${session.user == null}">Registration</a>
+    <a href="/home/auth" th:if="${session.user == null}">Authorization</a>
+    <a href="/account" th:if="${session.user != null}"> Account </a>
+    <a href="/logout" th:if="${session.user != null}"> Logout </a>
+</body>
+</html>
