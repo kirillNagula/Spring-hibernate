@@ -1,4 +1,4 @@
-package interceptor;
+package by.nagula.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,7 +11,7 @@ public class MyInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (request.getSession().getAttribute("user") == null){
-            response.sendRedirect("/home");
+            response.sendRedirect("home");
             return true;
         } else {
             return false;
