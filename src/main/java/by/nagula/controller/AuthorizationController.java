@@ -28,7 +28,7 @@ public class AuthorizationController {
     }
 
     @PostMapping(path = "/auth")
-    public ModelAndView getFromForm(@ModelAttribute("authorization") @Valid UserDto userDto, BindingResult bindingResult, ModelAndView modelAndView, HttpSession session){
+    public ModelAndView getFromForm(@Valid @ModelAttribute("authorization") UserDto userDto, BindingResult bindingResult, ModelAndView modelAndView, HttpSession session){
         if (!bindingResult.hasErrors()){
             User user = userService.find(userDto.getLogin());
             if (userService.checkPassword(user, userDto.getPassword())){

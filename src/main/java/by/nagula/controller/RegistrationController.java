@@ -1,7 +1,5 @@
 package by.nagula.controller;
 
-import by.nagula.entity.Address;
-import by.nagula.entity.PhoneNumber;
 import by.nagula.entity.User;
 import by.nagula.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -28,13 +26,13 @@ public class RegistrationController {
     }
 
     @PostMapping (path = "/reg")
-    public ModelAndView getFromForm(@ModelAttribute("registration") @Valid User user, BindingResult bindingResult, ModelAndView modelAndView){
+    public ModelAndView getFromForm(@Valid @ModelAttribute("registration") User user, BindingResult bindingResult, ModelAndView modelAndView){
         if(!bindingResult.hasErrors()){
             System.out.println(user);
             userService.save(user);
             modelAndView.setViewName("redirect:/home");
         } else {
-         modelAndView.setViewName("req");
+            modelAndView.setViewName("reg");
         }
         return modelAndView;
     }

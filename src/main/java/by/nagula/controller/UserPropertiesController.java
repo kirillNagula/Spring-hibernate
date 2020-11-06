@@ -27,7 +27,7 @@ public class UserPropertiesController {
     }
 
     @PostMapping
-    public ModelAndView postPage(@ModelAttribute("properties") @Valid User user, BindingResult bindingResult, ModelAndView modelAndView, HttpSession session){
+    public ModelAndView postPage(@Valid @ModelAttribute("properties") User user, BindingResult bindingResult, ModelAndView modelAndView, HttpSession session){
         if (!bindingResult.hasErrors()){
             User user1 = (User) session.getAttribute("user");
             user.setId(user1.getId());
