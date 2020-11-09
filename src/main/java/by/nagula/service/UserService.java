@@ -1,11 +1,14 @@
 package by.nagula.service;
 
+import by.nagula.dao.HibernateJpaUserDao;
+import by.nagula.dao.HibernateUserDao;
 import by.nagula.dao.UserDao;
 import by.nagula.entity.User;
 import by.nagula.exception.UserAlreadyExistException;
 import by.nagula.exception.UserNotExistInDbException;
 import by.nagula.exception.WrongLginException;
 import by.nagula.exception.WrongPasswordException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 
@@ -13,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserDao userDao;
 
-    public UserService(UserDao userDao) {
+    public UserService(@Qualifier("hibJpa") UserDao userDao) {
         this.userDao = userDao;
     }
 

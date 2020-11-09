@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@NamedQuery(name = "findByLogin", query = "from User where login =:login")
 public class User {
 
     @Id

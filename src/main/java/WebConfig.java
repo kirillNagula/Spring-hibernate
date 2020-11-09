@@ -1,4 +1,5 @@
 import by.nagula.interceptor.MyInterceptor;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -6,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -38,27 +41,43 @@ public class WebConfig implements WebMvcConfigurer {
       return driverManagerDataSource;
   }
 
+//  @Bean
+//    public LocalSessionFactoryBean localSessionFactoryBean(){
+//      LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
+//      localSessionFactoryBean.setDataSource(source());
+//      localSessionFactoryBean.setPackagesToScan("by.nagula.entity");
+//      localSessionFactoryBean.setHibernateProperties(propertiesHib());
+//      return localSessionFactoryBean;
+//  }
+
+//  @Bean
+//  public PlatformTransactionManager transactionManager(){
+//    HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
+//    hibernateTransactionManager.setSessionFactory(localSessionFactoryBean().getObject());
+//    return hibernateTransactionManager;
+//  }
+
   @Bean
-    public LocalSessionFactoryBean localSessionFactoryBean(){
-      LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
-      localSessionFactoryBean.setDataSource(source());
-      localSessionFactoryBean.setPackagesToScan("by.nagula.entity");
-      localSessionFactoryBean.setHibernateProperties(propertiesHib());
-      return localSessionFactoryBean;
+  public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(){
+    LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+    entityManagerFactoryBean.setDataSource(source());
+    entityManagerFactoryBean.setJpaProperties(propertiesHib());
+    entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistenceProvider());
+    entityManagerFactoryBean.setPackagesToScan("by.nagula.entity");
+    return entityManagerFactoryBean;
   }
 
   @Bean
-    public PlatformTransactionManager transactionManager(){
-      HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
-     hibernateTransactionManager.setSessionFactory(localSessionFactoryBean().getObject());
-     return hibernateTransactionManager;
+  public PlatformTransactionManager transactionManager(){
+    JpaTransactionManager transactionManager = new JpaTransactionManager();
+    transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
+    return transactionManager;
   }
 
   @Bean
     public Properties propertiesHib(){
       Properties properties = new Properties();
       properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-      properties.setProperty("show_sql", "true");
       properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
       return properties;
   }
